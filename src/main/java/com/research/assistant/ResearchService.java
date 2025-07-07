@@ -13,7 +13,7 @@ public class ResearchService {
     private String geminiApiUrl;
 
     @Value("${gemini.api.key}")
-    private String geminiApiKey;
+    private String GEMINI_API_KEY;
 
     private final WebClient webClient;
     private final ObjectMapper objectMapper;
@@ -38,7 +38,9 @@ public class ResearchService {
         );
 
         String response = webClient.post()
-                .uri(geminiApiUrl + geminiApiKey)
+                .uri(geminiApiUrl)
+                .header("Content-Type", "application/json")
+        .header("X-goog-api-key", GEMINI_API_KEY)
                 .bodyValue(requestBody)
                 .retrieve()
                 .bodyToMono(String.class)
